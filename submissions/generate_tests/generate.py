@@ -2,14 +2,27 @@ from collections import defaultdict
 import json
 import random
 import sys
+import time
 from bst import Node, BST
 from helpers import *
 
+start_time=time.time()
+timer_time=start_time
+
+def log_time():
+    global timer_time
+    curr=time.time()
+    st=f"{(curr-timer_time):.3f} s"
+    timer_time=curr
+    return st
+
 bst = BST()
-AMOUNT_IN_TREE=2000000
+AMOUNT_IN_TREE=500000
 sys.setrecursionlimit(10**9)
 
 insert_range(bst,0,AMOUNT_IN_TREE)
+
+print("----TREE GENERATED----: "+log_time())
 
 base_elements=set()
 recipies={}
@@ -20,8 +33,9 @@ def get_recipies(node: Node):
     if left != None and right != None: 
         left_key = left.key
         right_key = right.key
-        key=left_key << 32 | right_key
         key=(left_key,right_key)
+        if key in recipies:
+            return
         recipies[key]=node.key
         get_recipies(left)
         get_recipies(right)
@@ -50,7 +64,7 @@ for _ in range(3):
     random_subtree_acc.append(deep_random_node)
 
 all_leaf_keys=bst.get_all_leafs()
-for _ in range(len(all_leaf_keys)//50):
+for _ in range(len(all_leaf_keys)//20):
     rand_node = random.choice(random_subtree_acc)
     rand_leaf = random.choice(all_leaf_keys)
     all_leaf_keys.remove(rand_leaf)
@@ -60,8 +74,10 @@ for _ in range(len(all_leaf_keys)//50):
     else:
         rand_leaf_parent.left = rand_node
 
+print("----SUBTREES SET----: "+log_time())
 
 get_recipies(random_node)
+print("----RECIPIES CREATED----: "+log_time())
 print(len(base_elements))
 print(len(recipies))
 count=defaultdict(lambda:0)
@@ -70,12 +86,17 @@ for k,v in recipies.items():
     count[a]+=1
     count[b]+=1
     count[v]+=1
+
+print("----COUNT DONE----: "+log_time())
+
 leftovers=[k for k,c in count.items() if c == 1]
 for leftover in leftovers:
     base_elements.add(leftover)
-# insert_range(0,AMOUNT_IN_TREE)
+
+print("----LEFTOVERS ADDED----: "+log_time())
+
 # with open("recipies.json", "w") as outfile: 
-with open("01.in", "w") as outfile: 
+with open("03.in", "w") as outfile: 
     # json.dump(remap(recipies), outfile)
     basestr=" ".join(list(map(str,base_elements)))+"\n"
     combinations=f"{len(recipies)}\n"
@@ -90,3 +111,4 @@ with open("01.in", "w") as outfile:
     outfile.write(f"{random_node.key}\n")
 
 
+print(f"----FILE CREATED----: {(time.time()-start_time):.3f} s")
