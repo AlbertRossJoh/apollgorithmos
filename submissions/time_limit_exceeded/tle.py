@@ -1,3 +1,4 @@
+amountgroundelms=int(input())
 groundelms=set(input().split())
 combinations=int(input())
 revrecipies={}
