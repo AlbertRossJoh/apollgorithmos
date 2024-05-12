@@ -142,6 +142,21 @@ class BST:
         node.left = self._delete_min(node.left)
         return node
 
+    def get_all_leafs(self) -> List[int]:
+        if self.root is None:
+            return []
+        keys=[]
+        self._leafs(self.root, keys)
+        return keys
+
+    def _leafs(self, node: Node, keys: List)-> None:
+        if node is None:
+            return
+        if node.left is None and node.right is None:
+            keys.append(node.key)
+        self._leafs(node.left, keys)
+        self._leafs(node.right, keys)
+
     def get_all_keys(self) -> List[int]:
         if self.root is None:
             return []
