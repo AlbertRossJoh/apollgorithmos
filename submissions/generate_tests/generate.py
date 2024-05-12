@@ -6,8 +6,7 @@ from bst import Node, BST
 from helpers import *
 
 bst = BST()
-AMOUNT_IN_TREE=200000
-
+AMOUNT_IN_TREE=2000000
 sys.setrecursionlimit(10**9)
 
 insert_range(bst,0,AMOUNT_IN_TREE)
@@ -41,8 +40,8 @@ def get_recipies(node: Node):
 random_node=bst.root
 
 random_subtree_acc=[]
-for _ in range(6):
-    deep_random_node=getRandomNode(8, random_node)
+for _ in range(3):
+    deep_random_node=getRandomNode(4, random_node)
     deep_random_node, deep_random_parent=bst.get(deep_random_node.key)
     if deep_random_parent.left.key == deep_random_node.key:
         deep_random_parent.left = None
@@ -51,7 +50,7 @@ for _ in range(6):
     random_subtree_acc.append(deep_random_node)
 
 all_leaf_keys=bst.get_all_leafs()
-for _ in range(len(all_leaf_keys)//2):
+for _ in range(len(all_leaf_keys)//50):
     rand_node = random.choice(random_subtree_acc)
     rand_leaf = random.choice(all_leaf_keys)
     all_leaf_keys.remove(rand_leaf)
