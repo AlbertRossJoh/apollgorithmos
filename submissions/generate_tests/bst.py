@@ -6,6 +6,24 @@ class Node:
         self.left: Optional[Node] = None
         self.right: Optional[Node] = None
     
+    def get_subtree_depth(self) -> int:
+        return _get_subtree_depth(self)
+    def _get_subtree_depth(self, max_depth: int) -> int:
+        if self.left == None and self.right == None:
+            return max_depth
+
+        max_depth += 1
+        if self.left != None:
+            tmp = self.left._get_subtree_depth(max_depth)
+            if tmp > max_depth:
+                max_depth = tmp
+        if self.right != None:
+            tmp = self.right._get_subtree_depth(max_depth)
+            if tmp > max_depth:
+                max_depth = tmp
+        return max_depth
+
+
     def get_right(self) -> 'Node':
         if self.right == None:
             self.right = Node(self.key+1)
@@ -42,6 +60,12 @@ class Node:
         if self.right is not None:
             self.right._get_leafs(leafs)
 
+def _get_subtree_depth(node: Node|None) -> int:
+    if node == None:
+        return 0
+    left = _get_subtree_depth(node.left)
+    right = _get_subtree_depth(node.right)
+    return max(left, right) + 1
 
 class BST:
     def __init__(self):
@@ -59,6 +83,10 @@ class BST:
         elif key > node.key:
             node.right = self._put(node.right, key)
         return node
+
+    def __contains__(self, key: int):
+        node, _ = self.get(key)
+        return node != None
 
     def get(self, key: int) -> tuple[Optional[Node], Node]:
         return self._get(self.root, None, key)
