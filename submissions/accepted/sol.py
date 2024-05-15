@@ -10,6 +10,7 @@ for _ in range(combinations):
 mem={}
 for elm in groundelms:
     mem[elm] = 1
+
 def sol(rec: dict[str, tuple[str, str]], curr: str):
     global mem
     if curr in mem:
