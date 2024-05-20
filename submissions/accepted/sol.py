@@ -6,7 +6,7 @@ for _ in range(combinations):
     # fire water steam
     a, b, c = input().split()
     revrecipies[c] = tuple(sorted([a, b]))
-# print(revrecipies)
+
 mem={}
 for elm in groundelms:
     mem[elm] = 1
