@@ -33,4 +33,4 @@ for _ in range(10000):
         acc.append(ctr)
 # print(acc)
 # print((sum(acc)/len(acc)))
-print(int((2**(sum(acc)/len(acc)))*2))
+print(int((2**(sum(acc)/len(acc)))))
