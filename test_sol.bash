@@ -40,14 +40,14 @@ printf "\n\n\n"
 printf "If successful answer is wrong\n"
 printf "\n"
 wa=(./submissions/wrong_answer/*.py)
-for (( i=0; i<${#tests[*]}; ++i)); do
-    filename=${tests[$i]}
-    ex=$(cat ${expected[$i]})
-    for (( j=0; j<${#wa[*]}; ++j)); do
-        testfilename=${wa[$j]}
-        discription=$(head -n 1 $testfilename)
-        echo
-        echo $discription
+for (( j=0; j<${#wa[*]}; ++j)); do
+    testfilename=${wa[$j]}
+    discription=$(head -n 1 $testfilename)
+    echo
+    echo $discription
+    for (( i=0; i<${#tests[*]}; ++i)); do
+        filename=${tests[$i]}
+        ex=$(cat ${expected[$i]})
         res3=$(python3 $testfilename < $filename)
         if (( $res3 != $ex )); then
             printf "Success: ${filename}\n"
