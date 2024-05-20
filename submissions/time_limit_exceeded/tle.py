@@ -14,5 +14,5 @@ def sol(rec: dict[str, tuple[str, str]], curr: str):
         return sol(rec, a) + sol(rec, b)
 
 elm=input()
-print(sol(revrecipies, elm))
+print(sol(revrecipies, elm) - 1)
 
