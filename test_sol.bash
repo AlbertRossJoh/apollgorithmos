@@ -45,6 +45,9 @@ for (( i=0; i<${#tests[*]}; ++i)); do
     ex=$(cat ${expected[$i]})
     for (( j=0; j<${#wa[*]}; ++j)); do
         testfilename=${wa[$j]}
+        discription=$(head -n 1 $testfilename)
+        echo
+        echo $discription
         res3=$(python3 $testfilename < $filename)
         if (( $res3 != $ex )); then
             printf "Success: ${filename}\n"
