@@ -1,39 +1,56 @@
 #!/bin/bash
 tests=(./data/s*/*.in)
 expected=(./data/s*/*.ans)
+extensions=("py" "fsx" "cpp")
+commandtorun=("python3 " "dotnet fsi" "/usr/bin/g++ -std=c++11")
+optionalcommand=("" "" "&& timeout 2 ./a.out")
 normal=0
-printf "If successful intended solution is correct\n"
-printf "\n"
-for (( i=0; i<${#tests[*]}; ++i)); do
-    filename=${tests[$i]}
-    ex=$(cat ${expected[$i]})
-    res1=$(timeout 2s python3 ./submissions/accepted/sol.py < $filename)
-    if (( $? == 124 )); then
-        normal=1
-        res1=100
-        printf "Timelimit exceeded on ${filename}\n"
-    else
-        normal=0
-    fi
-    if (( $res1 == $ex && $normal == 0 )); then
-        printf "Success: ${filename}\n"
-    else
-        printf "Failed: ${filename}\n"
-    fi
+
+for (( j=0; j<${#extensions[*]}; ++j )); do
+    extension=${extensions[$j]}
+    command=${commandtorun[$j]}
+    optional=${optionalcommand[$j]}
+    printf "\n"
+    printf "${extension}\n"
+    for (( i=0; i<${#tests[*]}; ++i)); do
+        filename=${tests[$i]}
+        ex=$(cat ${expected[$i]})
+        cmd="${command} ./submissions/accepted/sol.${extension} ${optional} < $filename"
+        res1=$(eval timeout 2 $cmd)
+        if (( $? == 124 )); then
+            normal=1
+            res1=100
+            printf "Timelimit exceeded on ${filename}\n"
+        else
+            normal=0
+        fi
+        if (( $res1 == $ex && $normal == 0 )); then
+            printf "Success: ${filename}\n"
+        else
+            printf "Failed: ${filename}\n"
+        fi
+    done
 done
 tle=0
-printf "\n\n\n"
-printf "If successful time limit exceeded\n"
-printf "\n"
-for (( i=0; i<${#tests[*]}; ++i)); do
-    filename=${tests[$i]}
-    res2=$(timeout 2s python3 ./submissions/time_limit_exceeded/tle.py < $filename)
-    if (( $? == 124 )); then
-        tle=1
-        printf "Successful TLE: ${filename}\n"
-    else 
-        printf "Failed TLE: ${filename}\n"
-    fi
+printf "\n\n"
+for (( j=0; j<${#extensions[*]}; ++j )); do
+    extension=${extensions[$j]}
+    command=${commandtorun[$j]}
+    optional=${optionalcommand[$j]}
+    printf "\n"
+    printf "If successful time limit exceeded extension: ${extension}\n"
+    for (( i=0; i<${#tests[*]}; ++i)); do
+        filename=${tests[$i]}
+        cmd="${command} ./submissions/time_limit_exceeded/tle.${extension} ${optional} < $filename"
+        # res2=$(timeout 2s ${command} ./submissions/time_limit_exceeded/tle.${extension} ${optional} < $filename)
+        res2=$(eval timeout 2 $cmd)
+        if (( $? == 124 )); then
+            tle=1
+            printf "Successful TLE: ${filename}\n"
+        else 
+            printf "Failed TLE: ${filename}\n"
+        fi
+    done
 done
 
 printf "\n\n\n"
