@@ -21,4 +21,4 @@ def sol(rec: dict[str, tuple[str, str]], curr: str):
     return mem[curr]
 
 elm=input()
-print(sol(revrecipies, elm))
+print(sol(revrecipies, elm)-1)

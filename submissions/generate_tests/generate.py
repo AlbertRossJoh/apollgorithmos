@@ -1,5 +1,5 @@
 from collections import defaultdict
-import json
+import os
 import random
 import sys
 import time
@@ -17,7 +17,7 @@ def log_time():
     return st
 
 bst = BST()
-AMOUNT_IN_TREE=2000000
+AMOUNT_IN_TREE=500000
 sys.setrecursionlimit(10**9)
 
 insert_range(bst,0,AMOUNT_IN_TREE)
@@ -96,15 +96,14 @@ for leftover in leftovers:
 print("----LEFTOVERS ADDED----: "+log_time())
 
 # with open("recipies.json", "w") as outfile: 
-with open("03.in", "w") as outfile: 
+with open(f"../../data/secret/{sys.argv[1]}.in", "w") as outfile: 
     # json.dump(remap(recipies), outfile)
     b_e = list(map(str,base_elements))
     basestr=" ".join(b_e)+"\n"
     combinations=f"{len(recipies)}\n"
 
     remapped=remap(recipies)
-
-    outfile.write(str(len(b_e)))
+    outfile.write(str(len(b_e))+"\n")
     outfile.write(basestr)
     outfile.write(combinations)
     for k, v in remapped.items():
@@ -114,3 +113,6 @@ with open("03.in", "w") as outfile:
 
 
 print(f"----FILE CREATED----: {(time.time()-start_time):.3f} s")
+
+os.system(f"python3 ../accepted/sol.py < ../../data/secret/{sys.argv[1]}.in > ../../data/secret/{sys.argv[1]}.ans")
+
