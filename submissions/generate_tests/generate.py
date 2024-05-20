@@ -17,7 +17,7 @@ def log_time():
     return st
 
 bst = BST()
-AMOUNT_IN_TREE=500000
+AMOUNT_IN_TREE=2000000
 sys.setrecursionlimit(10**9)
 
 insert_range(bst,0,AMOUNT_IN_TREE)
@@ -98,11 +98,13 @@ print("----LEFTOVERS ADDED----: "+log_time())
 # with open("recipies.json", "w") as outfile: 
 with open("03.in", "w") as outfile: 
     # json.dump(remap(recipies), outfile)
-    basestr=" ".join(list(map(str,base_elements)))+"\n"
+    b_e = list(map(str,base_elements))
+    basestr=" ".join(b_e)+"\n"
     combinations=f"{len(recipies)}\n"
 
     remapped=remap(recipies)
 
+    outfile.write(str(len(b_e)))
     outfile.write(basestr)
     outfile.write(combinations)
     for k, v in remapped.items():
