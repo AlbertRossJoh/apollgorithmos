@@ -1,6 +1,7 @@
 amountgroundelms=int(input())
 groundelms=set(input().split())
 combinations=int(input())
+
 revrecipies={}
 for _ in range(combinations):
     # fire water steam
@@ -11,8 +12,7 @@ mem={}
 for elm in groundelms:
     mem[elm] = 1
 
-def sol(rec: dict[str, tuple[str, str]], curr: str):
-    global mem
+def sol(rec: dict[str, tuple[str, str]], curr: str) -> int:
     if curr in mem:
         return mem[curr]
     else:
@@ -20,5 +20,5 @@ def sol(rec: dict[str, tuple[str, str]], curr: str):
         mem[curr] = sol(rec, a) + sol(rec, b)
     return mem[curr]
 
-elm=input()
+elm = input()
 print(sol(revrecipies, elm)-1)
