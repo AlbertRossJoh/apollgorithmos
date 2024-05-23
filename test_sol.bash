@@ -2,12 +2,23 @@
 tests=(./data/s*/*.in)
 expected=(./data/s*/*.ans)
 extensions=("py" "fsx" "cpp")
-commandtorun=("python3 " "dotnet fsi" "/usr/bin/g++ -std=c++11")
+commandtorun=("pypy3 " "dotnet fsi" "/usr/bin/g++ -O3 -std=c++11")
 optionalcommand=("" "" "&& timeout 2 ./a.out")
 normal=0
+args=("$@")
+echo $args
 
 for (( j=0; j<${#extensions[*]}; ++j )); do
+
     extension=${extensions[$j]}
+    if (( ! ${args[0]} )); then
+        echo "hit"
+        echo $extension
+        if (( "$extension" != "${args[0]}" )); then
+            echo "hit2"
+            continue
+        fi
+    fi
     command=${commandtorun[$j]}
     optional=${optionalcommand[$j]}
     printf "\n"
@@ -65,7 +76,7 @@ for (( j=0; j<${#wa[*]}; ++j)); do
     for (( i=0; i<${#tests[*]}; ++i)); do
         filename=${tests[$i]}
         ex=$(cat ${expected[$i]})
-        res3=$(python3 $testfilename < $filename)
+        res3=$(pypy3 $testfilename < $filename)
         if (( $res3 != $ex )); then
             printf "Success: ${filename}\n"
         else

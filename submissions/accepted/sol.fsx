@@ -17,7 +17,6 @@ let map2 = Hashtable()
 lines 
     |> List.map (fun str -> 
         let words = str.Split [|' '|]
-
         (words.[2], (words.[0], words.[1])))
     |> List.iter (fun (k, v) -> map2.Add(k, v))
 

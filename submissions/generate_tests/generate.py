@@ -17,7 +17,7 @@ def log_time():
     return st
 
 bst = BST()
-AMOUNT_IN_TREE=500000
+AMOUNT_IN_TREE=2000000
 sys.setrecursionlimit(10**9)
 
 insert_range(bst,0,AMOUNT_IN_TREE)
@@ -77,6 +77,7 @@ for _ in range(len(all_leaf_keys)//20):
 print("----SUBTREES SET----: "+log_time())
 
 get_recipies(random_node)
+get_recipies(bst.root)
 print("----RECIPIES CREATED----: "+log_time())
 print(len(base_elements))
 print(len(recipies))
