@@ -48,9 +48,6 @@ def get_recipies(node: Node):
             node.left = None
         base_elements.add(node.key)
 
-
-# random_range=random.randint(2,7)
-# random_node=getRandomNode(random_range, bst.root)
 random_node=bst.root
 
 random_subtree_acc=[]
@@ -77,7 +74,6 @@ for _ in range(len(all_leaf_keys)//20):
 print("----SUBTREES SET----: "+log_time())
 
 get_recipies(random_node)
-get_recipies(bst.root)
 print("----RECIPIES CREATED----: "+log_time())
 print(len(base_elements))
 print(len(recipies))
